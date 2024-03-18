@@ -1,5 +1,5 @@
 ---
-title: FPGA 0x01
+title: FPGA_0x01
 author: lancer
 pubDatetime: 2024-03-18T11:17:23Z
 slug: fpga-01
