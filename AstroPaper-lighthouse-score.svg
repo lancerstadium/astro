@@ -15,7 +15,7 @@
 
 			.guage-text {
 				font-size: 40px;
-				font-family: noto-serif-sc, monospace;
+				font-family: monospace;
 				text-align: center
 			}
 
@@ -54,10 +54,10 @@
 				stroke: none;
 				font-size: 26px;
 				line-height: 26px;
-				font-family: noto-serif-sc, Roboto, Halvetica, Arial, sans-serif
+				font-family: Roboto, Halvetica, Arial, sans-serif
 			}
 			.metric.guage-title {
-				font-family: noto-serif-sc, 'Courier New', Courier, monospace
+				font-family: 'Courier New', Courier, monospace
 			}
 			.theme--agnostic .guage-title {
 				color: #737373;
