@@ -2,7 +2,7 @@
 title: FPGA 0x00
 author: lancer
 pubDatetime: 2024-03-18T10:23:51Z
-slug: FPGA-0x00
+slug: fpga-00
 featured: false
 draft: false
 tags:
