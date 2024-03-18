@@ -11,6 +11,9 @@ dependencies:
   '@astrojs/rss':
     specifier: ^4.0.2
     version: 4.0.5
+  '@fontsource-variable/noto-sans-sc':
+    specifier: ^5.0.5
+    version: 5.0.5
   '@fontsource/noto-serif-sc':
     specifier: ^5.0.11
     version: 5.0.11
@@ -860,6 +863,10 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
     dev: true
+
+  /@fontsource-variable/noto-sans-sc@5.0.5:
+    resolution: {integrity: sha512-y1H9G8zMw/ES//WpCYxzucZoy5aFDQAwZngvNe/g6ydrdUnmVmMIJEeWxOxr3p+NbbVpNdeDx8uxQVS6A6VPSQ==}
+    dev: false
 
   /@fontsource/noto-serif-sc@5.0.11:
     resolution: {integrity: sha512-aX7gF5m4869KQM+9XnfskxBBpIIWzQVBQjehLaO1R3cuD5nOWqBg8BzYTHupkeAEb0ADOMnYNzbXYoPWLgorcg==}
