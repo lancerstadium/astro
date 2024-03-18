@@ -160,3 +160,97 @@ endmodule
 ### 4.2 类型二
 
 案例：当收到`en=1`后，`dout`间隔 3 个时钟后，产生宽度为 2 个时钟周期的高电平脉冲。
+
+推理：
+1. 出现大于 1 的数字时，就需要计数。这里有连续的数字 2 和 3，建议的计数方式为 5 ；
+2. 没有信号明确计数时，补充`flag_add`信号。
+
+
+计数器代码：补充该信号后，计数器的加 1 条件就变为 `flag_add==1`：
+```verilog
+
+/* cnt */
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n) begin
+        cnt <= 0;
+    end
+    else if(add_cnt) begin
+        if(end_cnt)
+            cnt <= 0;
+        else
+            cnt <= cnt + 1;
+    end
+end
+
+/* 加一条件 */
+assign add_cnt = flag_add==1;
+/* 结束条件 */
+assign end_cnt = add_cnt && cnt==5-1;
+
+```
+
+
+`flag_add`有 2 个变化点：
+1. 变 1：条件是收到`en==1`；
+2. 变 0：的条件是计数器数完了。
+
+```verilog
+
+/* flag_add */
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n) begin
+        flag_add <= 0;
+    end
+    else if(en == 1) begin
+        flag_add <= 1;
+    end
+    else if(end_cnt) begin
+        flag_add <= 0;
+    end
+end
+
+```
+
+`dout`也有 2 个变化点：
+1. 变 1 ：条件是“3 个间隔之后”
+2. 变 0 ：条件是数完了
+
+```verilog
+
+/* dout */
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n) begin
+        dout <= 0;
+    end
+    else if(add_cnt && cnt==3-1) begin
+        dout <= 1;
+    end
+    else if(end_cnt) begin
+        dout <= 0;
+    end
+end
+
+```
+
+补充 module 的其他部分：cnt 是用 always 产生的信号，因此类型为 reg。cnt 计数的最大值为 4，需要用 3 根线表示，即 位宽是 3 位。add_cnt 和 end_cnt 都是用 assign 方式设计的，因此类型为 wire。flag_add、dout 是用 always 方式设计的，因此类型为 reg。
+
+
+```verilog
+
+module my_ex2( clk , rst_n , en , dout );
+    input clk; 
+    input rst_n; 
+    input en; 
+    output dout;
+
+    reg[ 2:0] cnt; 
+    wire add_cnt; 
+    wire end_cnt; 
+    reg flag_add; 
+    reg dout;
+
+    // ...
+
+endmodule
+
+```
