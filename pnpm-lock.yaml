@@ -11,6 +11,9 @@ dependencies:
   '@astrojs/rss':
     specifier: ^4.0.2
     version: 4.0.5
+  '@fontsource/noto-serif-sc':
+    specifier: ^5.0.11
+    version: 5.0.11
   '@resvg/resvg-js':
     specifier: ^2.6.0
     version: 2.6.0
@@ -407,6 +410,7 @@ packages:
   /@babel/highlight@7.23.4:
     resolution: {integrity: sha512-acGdbYSfp2WheJoJm/EBBBLh/ID8KDc64ISZ9DYtBmC8/Q204PZJLHyzeB5qMzJ5trcOkybd78M4x2KWsUq++A==}
     engines: {node: '>=6.9.0'}
+    requiresBuild: true
     dependencies:
       '@babel/helper-validator-identifier': 7.22.20
       chalk: 2.4.2
@@ -856,6 +860,10 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
     dev: true
+
+  /@fontsource/noto-serif-sc@5.0.11:
+    resolution: {integrity: sha512-aX7gF5m4869KQM+9XnfskxBBpIIWzQVBQjehLaO1R3cuD5nOWqBg8BzYTHupkeAEb0ADOMnYNzbXYoPWLgorcg==}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.14:
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
