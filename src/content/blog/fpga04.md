@@ -42,9 +42,62 @@ ModelSim有几种不同的版本：SE、PE、LE和OEM，其中SE是最高级的�
 > 3. [Modelsim (Password: 82eh) | BaiduPan](https://pan.baidu.com/s/1vaMfrHw4IfamREKiVAsSGw)
 
 
+## 2 仿真配置
+
+需要下载软件并配置 Modelsim 与 Vivado之间的仿真库，详情见参考资料。
+
+
+
+## 3 首个例程
+
+在新建的工程中，创建`led.v`文件，写入并`Run Simulation`：
+
+
+```verilog
+
+// led.v
+module led();
+
+    reg clk;       // 时钟信号
+    reg [7:0] led; // LED灯信号
+
+    // 时钟信号生成，时钟频率为100MHz
+    always begin
+        #0.02 clk = ~clk; // 时钟周期为0.02us，即50MHz
+    end
+
+    // 初始化
+    initial begin
+        clk = 0;
+        led = 8'b00000001;
+
+        // 模拟100个时钟周期
+        repeat (100) begin
+        #500; // 等待一个时钟周期
+        end
+
+        $finish; // 结束仿真
+    end
+
+    // LED灯控制逻辑
+    always @(posedge clk) begin
+        led <= led + 1; // 每个时钟周期LED灯状态加一
+    end
+
+endmodule
+
+```
+
+可以在 Modelsim 中见到该例程的波形图：
+
+![led](../../assets/images/fpga/prj1-led.png)
+
+
 
 ## 参考文献
 
 - [最详细的 Vivado 安装教程 | CSDN](https://blog.csdn.net/weixin_49457347/article/details/123643998)
 - [Modelsim 安装步骤详解 | CSDN](https://blog.csdn.net/QWERTYzxw/article/details/115350715)
 - [FPGA开发软件环境搭建 | Zhihu](https://zhuanlan.zhihu.com/p/605742464)
+- [Vivado开发FPGA使用流程 | CSDN](https://blog.csdn.net/weixin_45676874/article/details/132215573)
+- [Modelsim 与 Vivado 版本号 | BokeYuan](https://www.cnblogs.com/devindd/articles/16837346.html)
