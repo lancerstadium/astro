@@ -7,7 +7,7 @@ export const SITE: Site = {
   title: "LancerStadium's Blog",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
-  postPerPage: 5,
+  postPerPage: 12,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
 };
 
