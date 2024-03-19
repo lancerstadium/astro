@@ -8,6 +8,7 @@ draft: false
 tags:
   - Architecture
   - FPGA
+  - Verilog
 description:
   "介绍 Verilog 项目入门"
 ---
