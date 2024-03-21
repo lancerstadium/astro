@@ -60,7 +60,7 @@ module rom (
     output reg [7:0] data_out
 );
 
-reg [7:0] data; // ROM 数据存储在 Block RAM 中
+(*rom_style="block"*) reg [7:0] data; // ROM 数据存储在 Block RAM 中
 
 always @(posedge clk) begin
     if (rd_en) begin
@@ -83,8 +83,84 @@ endmodule
 
 > 除了 ROM 和 RAM 的实现方式外，还可以利用其他 FPGA 提供的资源 IP（知识产权）来实现特定功能。
 
-## 3 IP `BRAM`
 
+## 3 COE文件 & MIF文件
+
+COE文件和MIF文件都用于导入存储器ROM或RAM的存储数据，但是它们的格式和语法有些不同。
+
+通过 COF、MIF 文件，可以方便地描述存储器的初始化数据，便于在 FPGA 设计中进行存储器的初始化。
+
+### 3.1 COE文件
+
+COE（Coefficient）文件是一种常用于描述存储器初始化数据的文件格式，主要用于 Xilinx Vivado 等工具。COE 文件包含两个主要部分：头信息和内存初始化数据：
+1. 头信息部分：
+   - MEMORY_INITIALIZATION_RADIX：定义数据类型的基数。有效值为 2（二进制）、10（十进制）、16（十六进制）。
+   - MEMORY_INITIALIZATION_VECTOR：定义存储器初始化数据的开始标志。
+2. 内存初始化数据部分：
+   - 存储器初始化数据以指定基数的数字形式列出，用空格、逗号或回车符进行分隔。
+   - 每行表示存储器中的一个地址，其后紧跟初始化的数据值。
+
+下面是一个 COE 文件的示例：
+
+```
+; Sample COE file
+; Memory initialization data for a 4x8 ROM
+
+MEMORY_INITIALIZATION_RADIX=16;
+MEMORY_INITIALIZATION_VECTOR=
+
+00, 01, 02, 03, 04, 05, 06, 07,
+08, 09, 0A, 0B, 0C, 0D, 0E, 0F,
+10, 11, 12, 13, 14, 15, 16, 17,
+18, 19, 1A, 1B, 1C, 1D, 1E, 1F;
+```
+
+在这个示例中，COE 文件描述了一个 4x8 ROM 的初始化数据。头信息部分指定了数据类型基数为十六进制（16），然后在 MEMORY_INITIALIZATION_VECTOR 中列出了 ROM 的初始化数据，每行表示一个地址，后面是对应的十六进制数据值。
+
+
+### 3.2 MIF文件
+
+MIF（Memory Initialization File）文件是一种常用于描述存储器初始化数据的文件格式，通常用于 Quartus 等工具。MIF 文件包含两个主要部分：元信息和内存初始化数据。
+
+MIF 文件格式梳理如下：
+
+1. 元信息部分：
+   - DEPTH：存储器的深度，即存储多少个数据。
+   - WIDTH：存储器的数据位宽，即每个数据有多少位。
+   - ADDRESS_RADIX：设置地址基值的进制表示，可以设为 BIN（二进制）、OCT（八进制）、DEC（十进制）、HEX（十六进制）。
+   - DATA_RADIX：设置数据基值的进制表示，与 ADDRESS_RADIX 类似。
+
+2. 内存初始化数据部分：
+   - CONTENT BEGIN：数据区开始标志。
+   - 内存初始化数据：按照地址顺序列出每个地址对应的数据值。
+   - END：数据区结束标志。
+
+下面是一个 MIF 文件的示例：
+
+```
+WIDTH=8;
+DEPTH=256;
+ADDRESS_RADIX=DEC;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0 : 00;
+1 : 01;
+2 : 02;
+3 : 03;
+4 : 04;
+5 : 05;
+...
+255 : FF;
+END;
+```
+
+在这个示例中，MIF 文件描述了一个 256 个地址、每个数据位宽为 8 位的存储器的初始化数据。元信息部分指定了存储器的位宽、深度以及地址和数据的进制表示。在 CONTENT BEGIN 和 END 之间列出了每个地址对应的数据值，以地址和数据值的形式表示。
+
+
+## 4 块随机存储器 BRAM
+
+使用Xilinx或Inter的`BRAM IP`可以实现ROM。这里以vivado为例，打开`IP catalog`中，输入BRAM,打开`Block Memory Generator IP`。
 
 
 
