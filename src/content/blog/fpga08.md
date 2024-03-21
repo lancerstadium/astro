@@ -39,6 +39,52 @@ for i in range(0, 256):
 
 ## 2 使用查找表
 
+在Xilinx FPGA 中，ROM（只读存储器）和 RAM（随机存储器）可以使用四种资源来实现，分别是 BRAM（块RAM）、LUT（查找表）、分布式RAM 和 URAM（超大容量RAM）。可以使用 `rom_style` 或 `ram_style` 属性来强制规定使用的资源类型：
+
+1. `(*ram_style="block"*)`：表示使用 Block RAM（BRAM）实现 RAM，Block RAM 是 FPGA 中的硬件块，具有较大的存储容量和快速的读写速度；
+2. `(*ram_style="reg"*)`：表示使用寄存器实现 RAM，寄存器是 FPGA 中的基本存储单元，速度快但容量有限；
+3. `(*ram_style="distributed"*)`：表示使用分布式RAM 实现 RAM，分布式RAM是分布在 FPGA 的查找表（LUT）中的小型存储器，用于存储少量数据；
+4. `(*ram_style="uram"*)`：表示使用 URAM 实现 RAM，URAM 是 FPGA 中的超大容量RAM，具有更高的存储容量和更快的速度，适合需要大容量存储的应用。
+
+当RAM小于10K bit时，分布式RAM在功耗和速度上更有优势；当设计中LUT利用率很高时，如果Block RAM资源利用率不高，可以把分布式RAM转换为Block RAM，从而释放出一部分LUT资源。
+
+类似地，rom_style则是引导综合工具将ROM采用不同的资源实现。其可选值有两个：`block`和`distributed`。这是因为UltraRAM不能用做ROM。
+
+一个简单的 Verilog 代码示例：展示了如何使用 Block RAM 实现一个简单的 ROM 模块，根据输入的地址从 ROM 中读取数据并输出。
+
+```verilog
+module rom (
+    input clk,
+    input rd_en,
+    input [7:0] rd_addr,
+    output reg [7:0] data_out
+);
+
+reg [7:0] data; // ROM 数据存储在 Block RAM 中
+
+always @(posedge clk) begin
+    if (rd_en) begin
+        case (rd_addr)
+            8'd0: data <= 8'b00000000; // Address 0
+            8'd1: data <= 8'b00000001; // Address 1
+            8'd2: data <= 8'b00000010; // Address 2
+            8'd3: data <= 8'b00000011; // Address 3
+            default: data <= 8'b00000000; // Default case
+        endcase
+    end
+end
+
+assign data_out = data; // 输出 ROM 数据
+
+endmodule
+
+
+```
+
+> 除了 ROM 和 RAM 的实现方式外，还可以利用其他 FPGA 提供的资源 IP（知识产权）来实现特定功能。
+
+## 3 IP `BRAM`
+
 
 
 
