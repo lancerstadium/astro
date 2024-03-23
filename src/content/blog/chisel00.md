@@ -95,7 +95,7 @@ stu0.apply("lancer",100)
 
 技巧：分配内存时不写`new`：
 
-```
+```scala
 //      for example
 class Student(name:String){
     // ...
@@ -116,7 +116,7 @@ val stu0= Student("alphaGo")
 
 数据结构：
 
-```scale
+```scala
 
 val v0 = new Array[Int](10) // array
 val v1 = ("hello", 32)      // tuple
@@ -136,7 +136,7 @@ while(v6.hasNext) println(v6.next())
 
 Scala编译器会根据隐式转换函数的签名，对程序中可以作为隐式转换函数参数的对象自动调用隐式转换函数，转换成另一种对像返回，这一过程不需要使用者参与，因此是“隐式”的。隐式转换最核心的是定义隐式转换函数，例如：
 
-```
+```scala
 // for example
 class Student(val name:String){             
     def introduce(){
