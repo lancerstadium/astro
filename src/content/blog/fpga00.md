@@ -77,8 +77,33 @@ SliceM中的查找表可读写，就是用来设计存储和移位使用的。
 
 两个SRL32与一个MUX2，可以级联成最高支持64位的SRL。
 
-> 4个LUT刚好同在一个Slice布线方便延迟短。
-   
+> 布线：4个LUT刚好同在一个Slice布线方便延迟短；
+> 同步：引脚Q需要接到触发器FF，共享同一时钟；
+
+
+分布式 DRAM（*Distributed RAM*）：使用SliceM中的超招标实现，利用查找表为电路实现存储器。
+
+> 注意：
+> 使用DRAM实现大规模存储器会占用大量LUT，建议仅在需要小规模存储时使用分布式RAM。
+
+![DRAM64](../../assets/images/fpga/ram64.png)
+
+一个SliceM中4个LUT、2个F7MUX、1个FMUX，最大可以实现一个深度为256的单口DRAM，超过这个空间就要级联。
+
+```verilog
+reg [5:0] dram64x6[63:0];
+
+always @(posedge wclk)
+    if(we)
+        dram64x6[addr] <= d;
+
+assgin o = dram64x6[addr];
+
+```
+
+> 注意：
+> - 分布式RAM用于所有深度为64或更少的情况，除非设备缺少SLICEM或逻辑资源，因为DRAM在资源、性能和功能方面更高效；
+> - 对于大于64位小于128位深度，取决于：额外BRAM可用性、延迟要求、数据宽度（>16使用BRAM）、性能要求（DRAM有更短的Tco时间和更少的布局限制）
 
 
 1. 缓存 (Block RAM)
