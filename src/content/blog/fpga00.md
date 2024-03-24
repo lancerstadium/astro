@@ -106,15 +106,30 @@ assgin o = dram64x6[addr];
 > - 对于大于64位小于128位深度，取决于：额外BRAM可用性、延迟要求、数据宽度（>16使用BRAM）、性能要求（DRAM有更短的Tco时间和更少的布局限制）
 
 
-1. 缓存 (Block RAM)
+2. 多路选择器（MUX）
 
-缓存(Block RAM)是FPGA中最重要的存储单元，通常用BRAM来简称。最新的FPGA可包含接近100MB的BRAM，远远超过一般的CPU或GPU的cache大小。FPGA中的缓存通常是真双端口(true dual port)缓存，包含两组读写口，每一组端口可以时分复用地读或写。
+多路选择器MUX是一个多输入、单输出的组合逻辑电路，一个输入的多路选择器就是一个路的数字开关，可以根据通道选择控制信号的不同，从门个输入中选取一个输出到公共的输出端。7系列FPGA中的每个Slice含有3个双输入选择器(MUX2),分别为F7AMUX、F7BMUX、F8MUX.
+
+为什么FPGA中只有MUX2？
+
+![MUX8](../../assets/images/fpga/mux8.png)
+
+> 注意：
+> - 不使用LUT6实现MUX2来代替固定的MUX2：因为性能问题；
+> - 在实现MUX16的过程中使用LUT6来代替固定的MUX2：这样固定便于布线，4个查找表到达MUX2路径上的走线线延迟差小（几乎等长）。
+
+
+
+
+3. 块缓存 (Block RAM)
+
+块缓存(Block RAM)是FPGA中最重要的存储单元，通常用BRAM来简称。最新的FPGA可包含接近100MB的BRAM，远远超过一般的CPU或GPU的cache大小。FPGA中的缓存通常是真双端口(true dual port)缓存，包含两组读写口，每一组端口可以时分复用地读或写。
 
 ![BRAM](../../assets/images/fpga/bram.png)
 
 FPGA中的缓存通常为统一大小的块。Xilinx的缓存的基本粒度为36bit宽，深度为512，视为0.5个BRAM。实际使用时可以根据需要配置成更窄的位宽以及更大的深度。当设计使用的缓存大小超过0.5个BRAM时，综合工具会自动将其映射到多个BRAM上。最新的Xilinx FPGA还包含了72-bit宽，深度为4096的Ultra RAM来针对大容量片上存储的需求。
 
-3. 数字处理单元 (DSP)
+4. 数字处理单元 (DSP)
 
 数字处理单元(DSP)是用来进行整数的数学运算的。其基本的功能包括整数的加法、累加、乘法等。可以以流水线的形式完成完成`(A+D)*B+C`的功能。下图Xilinx的FPGA中DSP的基本结构。
 
