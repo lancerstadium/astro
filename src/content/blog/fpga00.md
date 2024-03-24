@@ -42,6 +42,18 @@ description:
 > 注意：区分FPGA板卡和FPGA芯片，以及它们的型号，不要混用。
 
 ### 3.1 FPGA 内部结构
+
+CLB 可编程模块由两个Slice组成，两个Slice根据LUT的不同分成 SliceM 和 SliceL：
+1. SliceM (M: Memory)：内部 LUT 可读写，可实现移位寄存器和 DRAM 等存储功能，称为分布式存储，可以实现基本的查找表逻辑；
+2. SliceL (L: Logic)：内部 LUT 只可读，只能实现基本的查找表逻辑。
+
+> 一般情况下：
+> - CLB 中比例 SliceL: SliceM = 2 : 1。
+> - `1 CLB = 2 Slice = 2 * (4 * LUT + 3 * MUX + 1 * CARRY4 + 8 * FF)`
+
+
+
+
 FPGA内部由一些相同的“块”构成，每个块内部又包含不同的列，每一列内部包含一种逻辑单元。逻辑单元之间通过互连线以及开关提供任意的连接方式。现代的FPGA主要由以下几种逻辑单元构成：
 
 1. 查找表和寄存器 (LUT & register)
