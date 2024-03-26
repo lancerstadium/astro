@@ -20,7 +20,19 @@ description:
 
 ## 1 时序约束步骤
 
-四大步骤：
+
+使用`Vivado`的`Sources`文件管理器直接创建新的`.xdc`文件或者添加已有的`.xdc`文件。
+1. 点击`+`号；
+2. 选择`Add or create constrints`点击`next`；
+3. 点击`Create Files`；
+4. 数据文件名点击`OK`即可在`Constrains`中看到新建的文件；
+5. 双击打开`.xdc`文件，写入约束语句即可。
+
+在综合（*Synthesis*）后点击`Constrainsts Wizard`（时序约束向导），其顺序是：主时钟约束、衍生时钟约束、输入延迟约束、输出延迟约束、时序例外约束、异步时钟约束等顺序依次创建时钟约束的。
+
+`Edit Timing Constrints`时序约束编辑器提供可视化约束修改，更容易使用。
+
+时序约束有四大步骤：
 1. 设置时钟
 2. input delays
 3. output delays
