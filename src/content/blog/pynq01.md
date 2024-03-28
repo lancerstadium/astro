@@ -184,3 +184,7 @@ endmodule
 
 执行流程：
 ![write10](../../assets/images/pynq/pynq1-write10.png)
+
+
+例化：
+![write11](../../assets/images/pynq/pynq1-write11.png)
