@@ -20,7 +20,7 @@ description:
 
 #### 1.1 数据
 
-数据准备：28 * 28 手写体图片（LeNet-5）
+数据准备：28 * 28 手写体图片（LeNet-5: MNIST）
 ![write1](../../assets/images/pynq/pynq1-write1.png)
 
   |Size  |Channel   |Layer|
@@ -157,9 +157,16 @@ module window_tb();
         start_window = 1;
     end
 
+    // 一共784=28*28行：一行为一个像素的Hex颜色值
     always @(posedge clk) begin
-
+        count_w <= $fscanf(fp_i,"%b\n",img_in);
+        cnt_line <= cnt_line + 1;
+        if(cnt_line == 784) $display("picture read over");
+        $display("%d, %b", count_w, img_in);
     end
+
+    // 时钟信号
+    always #10 clk = ~clk;
 
 endmodule
 ```
