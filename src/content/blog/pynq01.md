@@ -170,3 +170,17 @@ module window_tb();
 
 endmodule
 ```
+
+
+### 3 卷积模块设计
+
+#### 3.1 设计思路
+
+七级流水线pipline：计算 -> 合并
+
+![write8](../../assets/images/pynq/pynq1-write8.png)
+
+![write9](../../assets/images/pynq/pynq1-write9.png)
+
+执行流程：
+![write10](../../assets/images/pynq/pynq1-write10.png)
