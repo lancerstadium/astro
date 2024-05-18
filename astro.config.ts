@@ -16,6 +16,7 @@ export default defineConfig({
     react(),
     sitemap(),
   ],
+  output: 'hybrid',
   markdown: {
     remarkPlugins: [
       remarkToc,
